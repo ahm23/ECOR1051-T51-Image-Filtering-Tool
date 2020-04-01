@@ -1,11 +1,18 @@
+# Written by Ahmed Moussa, 101142994
 import os
 from time import sleep
-from T51_common import *
+from T51_user_interface import *
 from T51_image_filters import *
 
 loadedImages = []
 
-def selectImage(loadedImages, argDescription):
+def selectImage(loadedImages: list, argDescription: str) -> Image:
+    """ Written by Ahmed Moussa, 101142994, Group 51
+    Generates list of images in memory to select from. Previous filters applied to an image are shown as well.
+    
+    >>>  selectImage(loadedImages, "to apply sepia tone to")
+    Returns: Object <Cimpl.Image>
+    """
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         for image in range(len(loadedImages)):
@@ -21,7 +28,12 @@ def selectImage(loadedImages, argDescription):
             print("Please Enter a Number!")
             sleep(1.5)
 
-def filter(selectionData: list):
+def filter(selectionData: list) -> bool:
+    """ Written by Ahmed Moussa, 101142994, Group 51
+    Applies a filter onto the selected image provided in selectionData.
+    
+    >>>  filter(selection)
+    """
     if len(loadedImages) == 0:
         return False
     else:
@@ -55,21 +67,31 @@ def filter(selectionData: list):
         if selectionData[2] == "save":
             selectionData[3](*args)
         else:
-            loadedImages.append([selectionData[3](*args), selectionData[3].__name__ + loadedImageArgs])
-    
-            loadedImages[-1][0].filename = imageDescription
-            print("Filter Successfully Applied!")
-            show(loadedImages[-1][0])
+            try:
+                loadedImages.append([selectionData[3](*args), selectionData[3].__name__ + loadedImageArgs])
+                loadedImages[-1][0].filename = imageDescription
+                print("Filter Successfully Applied!")
+                show(loadedImages[-1][0])
+            except:
+                print("Filter Failed, Please Try Again")
+                sleep(2)
         return True
 
 def action(actionPos: list):
+    """ Written by Ahmed Moussa, 101142994, Group 51
+    Awaits user command input and acts apon the command entered. actionPos is a reformatted version of the menu data provided by display()
+    
+    >>>  action(actionPos)
+    """
     validSelection = False
     userInput = input("Select an option: ")
     for selectionData in actionPos:
         if userInput.upper() in selectionData:
             validSelection = True
             if selectionData[2] == "load":
-                loadedImages.append([selectionData[3](), "Stock"])
+                loadSuccess = [selectionData[3](), "Stock"]
+                if loadSuccess[0] != False:
+                    loadedImages.append(loadSuccess)
                 return mainMenu
             elif selectionData[2] == "save" or selectionData[2] == "filter":
                 filterResult = filter(selectionData)
@@ -87,6 +109,11 @@ def action(actionPos: list):
     return mainMenu
 
 def display(menuData: list):
+    """ Written by Ahmed Moussa, 101142994, Group 51
+    Generates mainMenu display based on the configuration in the mainMenu list. Reformats the data in the configuration for the programs use.
+    
+    >>>  display(menuData)
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
     selectionPos = []
     usedChars = ""
@@ -98,11 +125,16 @@ def display(menuData: list):
             commandLetter = ""
             commandDisplay = ""
             for character in range(len(selection[0])):
-                if selection[0][character] not in usedChars:
+                if selection[0][character].upper() not in usedChars:
                     commandLetter = selection[0][character]
                     commandDisplay = selection[0][:character] + "(" + selection[0][character] + ")" + selection[0][(character + 1):]
-                    usedChars += commandLetter
+                    usedChars += commandLetter.upper()
                     break
+            if commandLetter == "":
+                print("\n\nCould not find a unique letter in name to assign to command: \"{}\"".format(selection[0]))
+                print("Please modify this command's name in the mainMenu configuration list within T51_interative_ui.py")
+                sleep(5)
+                quit()
             selectionPos.append([commandLetter.upper(), selection[0].upper(), selection[1], selection[2], selection[3]])
             print("{0:<25}| ".format(commandDisplay), end="")
     print("\n{}\n".format("-" * menuWidth))
@@ -124,8 +156,8 @@ mainMenu = [
     [
         ["Edge detect", "filter", detect_edges, [["image", "to isolate the edges of the image"], ["input", "threshold"]]],
         ["Improved Edge detect", "filter", detect_edges_better, [["image", "to isolate the edges of the image"], ["input", "threshold"]]],
-        ["Vertical Flip", "filter", vertical, [["image", "to flip vertically"]]],
-        ["Horizontal Flip", "filter", horizontal, [["image", "to flip horizontally"]]]
+        ["Vertical", "filter", vertical, [["image", "to flip vertically"]]],
+        ["Horizontal", "filter", horizontal, [["image", "to flip horizontally"]]]
     ],
     [
         ["Quit", "quit", quit_program, [[]]]

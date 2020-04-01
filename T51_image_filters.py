@@ -2,23 +2,17 @@
 #Organized by Ngo Huu Gia Bao 101163137 
 
 from Cimpl import *
-"""
-file = choose_file()
-original_image = load_image(file)
-show (original_image)
-"""
 
 """""""""BASIC FILTERS FUNCTIONS FROM MILESTONE 1"""""""""
 
-
 def red_channel(original_image: Image) -> Image:                    #RED FILTER
-    
     """ Written by Alexander Szabo, 101151844, Group 51
-    
     Returns the photo with all the green and blue values filtered out.
     The photo returned will only have its red values, making the final photo only different shades of red.
+
+    >>> original_image = load_image(choose_file())
+    >>> show(red_channel(original_image))
     """
-    
     new_image = copy (original_image)
     height_restraint = get_height(new_image)
     width_restraint = get_width(new_image)
@@ -37,17 +31,10 @@ def red_channel(original_image: Image) -> Image:                    #RED FILTER
 
 
 def green_channel(original_image: Image) -> Image:                 #GREEN FILTER
-    
     """ Written by Jaden Paget, 101119947, Group 51
-    
     Returns an image that only contains its green components of each pixel.
-    green_channel(file1)
-    >>> "Test passed, all pixels contain only their green componant"
-    
-    green_channel(file2)
-    >>> "Test passed, all pixels contain only their green componant"
-    
-    green_channel(file3)
+
+    >>> green_channel(original_image)
     >>> "Test passed, all pixels contain only their green componant"
     """
     
@@ -61,11 +48,11 @@ def green_channel(original_image: Image) -> Image:                 #GREEN FILTER
 
 
 def blue_channel (original_image: Image) -> Image:                  #BLUE FILTER
-    
     """ Written by Ngo Huu Gia Bao, 101163137, Group 51
-    
     The function takes the original image and returns blue image by setting the red, green color in each pixel in a picture is equal to 0
     
+    >>> original_image = load_image(choose_file())
+    >>> show(blue_channel(original_image))
     """
     new_image = copy(original_image)                     
     for pixel in new_image:
@@ -78,8 +65,7 @@ def blue_channel (original_image: Image) -> Image:                  #BLUE FILTER
 
 
 def combine(red_image: Image, green_image: Image, blue_image: Image) -> Image:              #COMBINE FILTER
-    """
-    Written by Ahmed Moussa, 101142994, Group 51
+    """ Written by Ahmed Moussa, 101142994, Group 51
     Returns a combination of 3 images passed to the function. The colors of the images at every pixel are summed.
     
     ! The Recieved Images Must be of the Same Size !
@@ -87,7 +73,7 @@ def combine(red_image: Image, green_image: Image, blue_image: Image) -> Image:  
     *Note: This function is designed for maximum efficiency without multithreading*
     
     >>>  combine(red_image, green_image, blue_image)
-    Object <Cimpl.Image>
+    returns: Object <Cimpl.Image>
     """
     for x, y, color in red_image:                        # for every pixel in the current image image[i] (*note that the data of the pixel is collected from within the for loop's structure*)
         newColour = [r + g + b for r, g, b in zip(red_image.pixels[x,y], green_image.pixels[x,y], blue_image.pixels[x,y])] # Combine the colors of all 3 images into one tuple of colors
@@ -95,11 +81,10 @@ def combine(red_image: Image, green_image: Image, blue_image: Image) -> Image:  
     return red_image                                    # return the combined image
 
 
-
-
 """""""""FILTERS FROM MILESTONE 2"""""""""
 def grayscale(image: Image) -> Image:
-    """Return a grayscale copy of image.
+    """ Written by Carleton University Staff
+    Return a grayscale copy of image.
    
     >>> image = load_image(choose_file())
     >>> gray_image = grayscale(image)
@@ -121,13 +106,15 @@ def grayscale(image: Image) -> Image:
         set_color(new_image, x, y, gray)      
     return new_image
 
+
 """""""""FILTERS FROM P4"""""""""
 
 def two_tone( original_image: Image, color1: str, color2: str) -> Image:              # TWO TONE FILTER
-    
-    """ 
-    Written by Ngo Huu Gia Bao, 101163137, Group 51
+    """ Written by Ngo Huu Gia Bao, 101163137, Group 51
     Return an two tone image whose colors can be chose 
+
+    >>> original_image = load_image(choose_file())
+    >>> show(two_tone(original_image))
     """
     
     new_image = copy (original_image)
@@ -210,11 +197,11 @@ def two_tone( original_image: Image, color1: str, color2: str) -> Image:        
 
 
 def three_tone( original_image: Image, color1: str, color2: str, color3: str) -> Image:         # THREE TONE FILTER
-    
-    """ 
-    Written by Ngo Huu Gia Bao, 101163137, Group 51
+    """ Written by Ngo Huu Gia Bao, 101163137, Group 51
     Return an three tone image whose colors can be chose 
-    
+
+    >>> original_image = load_image(choose_file())
+    >>> show(three_tone(original_image))
     """
     
     new_image = copy (original_image)
@@ -327,10 +314,11 @@ def three_tone( original_image: Image, color1: str, color2: str, color3: str) ->
 
 
 def extreme_contrast(original_image: Image) -> Image :                              #EXTREME CONTRAST FILTER
-    
     """ Written by Jaden Paget, 101119947, Group 51
     Returns a copy of an image in which the contrast between the pixels has been maximized.
- 
+    
+    >>> original_image = load_image(choose_file())
+    >>> show(extreme_contrast(original_image))
     """
     
     new_image = copy(original_image)
@@ -355,9 +343,7 @@ def extreme_contrast(original_image: Image) -> Image :                          
 
 
 def sepia(original_image: Image) -> Image:                        # SEPIA FILTER
-    
-    """ Written by Ahmed Moussa 101142994 Group 51
-    
+    """ Written by Ahmed Moussa, 101142994, Group 51
     Tint the provided image with a sepia tone
    
     >>> original_image = load_image(choose_file())
@@ -375,8 +361,7 @@ def sepia(original_image: Image) -> Image:                        # SEPIA FILTER
     return grayImg
 
 
-def _adjust_component(original_image: Image):                        # ADJUST COMPONENT FOR POSTERIZE FILTER 
-    
+def _adjust_component(original_image: Image) -> list:                        # ADJUST COMPONENT FOR POSTERIZE FILTER 
     """ Written by Alexander Szabo, 101151844, Group 51
     Returns the midpoint value of the quadrant for the RGB values, respectively, of each pixel in an image. 
         
@@ -415,9 +400,7 @@ def _adjust_component(original_image: Image):                        # ADJUST CO
 
 
 def posterize(selected_image: Image) -> Image:                       # POSTERIZE FILTER
-    
-    """
-    Written by Alexander Szabo, 101151844, Group 51
+    """ Written by Alexander Szabo, 101151844, Group 51
     Returns the posterized version of a selected image
     """
     new_image = copy(selected_image)
@@ -444,9 +427,7 @@ def posterize(selected_image: Image) -> Image:                       # POSTERIZE
 """""""""FILTERS FROM P5"""""""""
 
 def detect_edges (original_image: Image, threshold: str) -> Image:                  #DECTECT EDGES FILTER    
-    
-    """
-    Written by Ngo Huu Gia Bao, 101163137, Group 51
+    """ Written by Ngo Huu Gia Bao, 101163137, Group 51
     Return an image that looks like a pencil sketch, by changing the pixels'colours to black or white,
     for every pixel that has a pixel below it, check the contrast between the two pixels. If the contrast is high, change the top pixel's colour to black, but if the contrast is low, change the top pixel's colour to white.
     """
@@ -472,10 +453,8 @@ def detect_edges (original_image: Image, threshold: str) -> Image:              
     return new_image
 
 
-def detect_edges_better(original_image: Image, threshold: str) -> Image:            # BETTER DECTECT EDGES FILTER 
-    
-    """
-    Written by Alexander Szabo, 101151844, Group 51 
+def detect_edges_better(original_image: Image, threshold: str) -> Image:            # BETTER DECTECT EDGES FILTER    
+    """ Written by Alexander Szabo, 101151844, Group 51 
     Developed by the same pair that developed detect_edges
     """
     
@@ -516,10 +495,11 @@ def detect_edges_better(original_image: Image, threshold: str) -> Image:        
 
 
 def vertical(img: Image) -> Image:                                  # VERTICAL FLIP FILTER
-    """
-    Written by Ahmed Moussa 101142994 Group 51
+    """ Written by Ahmed Moussa, 101142994, Group 51
     Vertically flip provided image
-   
+
+    >>> original_image = load_image(choose_file())
+    >>> show(vertical(original_image))
     """
     height = get_height(img) - 1                                    # Get height of the selected image subtract 1
     newimg = copy(img)                                              # Create copy of the original image to manipulate
@@ -530,11 +510,11 @@ def vertical(img: Image) -> Image:                                  # VERTICAL F
 
 
 def horizontal(original_image: Image) -> Image:                    # HORIZONTAL FLIP FILTER
-    
-    """ 
-    Written by Jaden Paget, 101119947, Group 51
+    """ Written by Jaden Paget, 101119947, Group 51
     Horizontally flips the passed image
-   
+
+    >>> original_image = load_image(choose_file())
+    >>> show(horizontal(original_image))
     """
     new_image = copy(original_image)
     width = get_width(new_image)
@@ -549,53 +529,3 @@ def horizontal(original_image: Image) -> Image:                    # HORIZONTAL 
             n = 1
     
     return fliphorizontal
-
-
-"Main Script (Assembled by Ngo Huu Gia Bao, 101163137)" 
-'''
-"""""""""FILTERS FROM MILESTONE 1"""""""""
-
-red_image = red_channel (original_image)                        #Calling the red_channel filter
-show (red_image)
-
-green_image = green_channel (original_image)                    #Calling the green_channel filter
-show (green_image)
-
-blue_image = blue_channel (original_image)                      #Calling the blue_channel filter
-show (blue_image)
-
-
-"""""""""FILTERS FROM MILESTONE 2"""""""""
-
-                                                             #P4 FILTERS
-                                                             
-                                                             
-two_tone_image = two_tone(original_image, "lime", "magneta")                                  #CALLING TWO TONE FILTER
-show (two_tone_image)
-
-three_tone_image = three_tone(original_image, "black", "white", "yellow")                     #CALLING THREE TONE FILTER  
-show (three_tone_image)
-
-extreme_contrast_image = extreme_contrast(original_image)                                     #CALLING EXTREME CONTRAST FILTER
-show (extreme_contrast_image)
-
-sepia_image = sepia(original_image)                                                           #CALLING SEPIA FILTER
-show (sepia_image)
-
-posterize_image = posterize(original_image)                                                   #CALLING POSTERIZE FILTER
-show (posterize_image)
-
-                                                             #P5 FILTERS
-
-detect_edges_image = detect_edges (original_image,6 )                                          #CALLING DECTECT EDGES FILTER
-show ( detect_edges_image)
-
-detect_edges_better_image = detect_edges_better(original_image, 6)                             #CALLING BETTER DECTECT EDGES FILTER
-show (detect_edges_better_image)
-
-vertical_flip_image = vertical(original_image)                                                 #CALLING VERTICAL FLIP FILTER
-show (vertical_flip_image)
-
-horizontal_flip_image = horizontal(original_image)                                              #CALLING VERTICAL FLIP FILTER
-show (horizontal_flip_image)
-'''
