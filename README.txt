@@ -4,7 +4,6 @@
 This project may be refered to as the ITF throughout this document for simplicity
 
 The project can be reached at:
-Voice: 613 415 3093
 Email: ahmedamoussa@cmail.carleton.ca
 
 ----------------------------------------------
